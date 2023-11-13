@@ -89,7 +89,7 @@ public class BoletaController {
 	
 	@RequestMapping("/registraBoleta")
 	@ResponseBody()
-	public Mensaje eliminar(Cliente cliente, HttpSession session) {
+	public Mensaje boleta(Cliente cliente, HttpSession session) {
 		Usuario objUsuario = (Usuario)session.getAttribute("objUsuario");
 		Mensaje objMensaje = new Mensaje();
 		
