@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.empresa.entidades.Boleta;
+import com.empresa.entidades.BoletaHasProducto;
+import com.empresa.entidades.BoletaHasProductoPK;
 import com.empresa.entidades.Cliente;
 import com.empresa.entidades.Mensaje;
 import com.empresa.entidades.Producto;
 import com.empresa.entidades.Seleccion;
+import com.empresa.entidades.Usuario;
 import com.empresa.service.BoletaService;
 import com.empresa.service.ClienteService;
 import com.empresa.service.ProductoService;
@@ -42,37 +48,49 @@ public class BoletaController {
 	@RequestMapping("/cargaCliente")
 	@ResponseBody()
 	public List<Cliente> listaCliente(String filtro){
-		return null;		
+		int page = 0;
+		int size = 5; //Muestre los primer cinco elementos
+		Pageable pageable = PageRequest.of(page, size);
+		
+		List<Cliente> lista = clienteService.listaCliente(filtro+"%", pageable);
+		return lista;		
 	}
 	
 	@RequestMapping("/cargaProducto")
 	@ResponseBody()
 	public List<Producto> listaProducto(String filtro){
-		return null;		
+		int page = 0;
+		int size = 5; //Muestre los primer cinco elementos
+		Pageable pageable = PageRequest.of(page, size);
+		
+		List<Producto> lista = productoService.listaproducto(filtro+"%", pageable);
+		return lista;		
 	}
 	
 	@RequestMapping("/listaSeleccion")
 	@ResponseBody()
 	public List<Seleccion> lista(){
-		return null; 
+		return this.seleccionados; 
 	}
 	
 	@RequestMapping("/agregarSeleccion")
 	@ResponseBody()
 	public List<Seleccion> agregar(Seleccion obj){
-		return null; 
+		seleccionados.add(obj);
+		return this.seleccionados; 
 	}
 	
 	@RequestMapping("/eliminaSeleccion")
 	@ResponseBody()
 	public List<Seleccion> eliminar(int idProducto){
-		return null; 
+		seleccionados.removeIf ( (x) -> x.getIdProducto() == idProducto );
+		return this.seleccionados; 
 	}
 	
 	@RequestMapping("/registraBoleta")
 	@ResponseBody()
 	public Mensaje boleta(Cliente cliente, HttpSession session) {
-		/*Usuario objUsuario = (Usuario)session.getAttribute("objUsuario");
+		Usuario objUsuario = (Usuario)session.getAttribute("objUsuario");
 		Mensaje objMensaje = new Mensaje();
 		
 		List<BoletaHasProducto> detalles = new ArrayList<BoletaHasProducto>();
@@ -115,9 +133,9 @@ public class BoletaController {
 
 				seleccionados.clear();
 				objMensaje.setTexto(salida);	
-		}*/
+		}
 		
-		return null;
+		return objMensaje;
 	}
 	
 }
