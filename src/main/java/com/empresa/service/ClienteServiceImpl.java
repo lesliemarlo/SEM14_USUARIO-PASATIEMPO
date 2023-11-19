@@ -14,15 +14,11 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
 	private ClienteRepository repository;
-
+	
 	@Override
 	public List<Cliente> listaCliente(String filtro, Pageable pageable) {
 		return repository.listaCliente(filtro, pageable);
 	}
 
-	@Override
-	public List<Cliente> listaCliente() {
-		return repository.listaCliente();
-	}
 
 }

@@ -41,7 +41,7 @@ public class BoletaController {
 	@Autowired
 	private BoletaService boletaService;
 	
-	
+	//Los productos seleccionados
 	private List<Seleccion> seleccionados = new ArrayList<Seleccion>();
 	
 	
@@ -49,42 +49,40 @@ public class BoletaController {
 	@ResponseBody()
 	public List<Cliente> listaCliente(String filtro){
 		int page = 0;
-		int size = 5; //Muestre los primer cinco elementos
+		int size = 5;
 		Pageable pageable = PageRequest.of(page, size);
-		
-		List<Cliente> lista = clienteService.listaCliente(filtro+"%", pageable);
-		return lista;		
+		List<Cliente> lstSalida = clienteService.listaCliente("%"+filtro+"%", pageable);
+		return lstSalida;		
 	}
 	
 	@RequestMapping("/cargaProducto")
 	@ResponseBody()
 	public List<Producto> listaProducto(String filtro){
 		int page = 0;
-		int size = 5; //Muestre los primer cinco elementos
+		int size = 5;
 		Pageable pageable = PageRequest.of(page, size);
-		
-		List<Producto> lista = productoService.listaproducto(filtro+"%", pageable);
-		return lista;		
+		List<Producto> lstSalida = productoService.listaProducto("%"+filtro+"%", pageable);
+		return lstSalida;		
 	}
 	
 	@RequestMapping("/listaSeleccion")
 	@ResponseBody()
 	public List<Seleccion> lista(){
-		return this.seleccionados; 
+		return seleccionados; 
 	}
 	
 	@RequestMapping("/agregarSeleccion")
 	@ResponseBody()
 	public List<Seleccion> agregar(Seleccion obj){
 		seleccionados.add(obj);
-		return this.seleccionados; 
+		return seleccionados; 
 	}
 	
 	@RequestMapping("/eliminaSeleccion")
 	@ResponseBody()
 	public List<Seleccion> eliminar(int idProducto){
-		seleccionados.removeIf ( (x) -> x.getIdProducto() == idProducto );
-		return this.seleccionados; 
+		seleccionados.removeIf( x -> x.getIdProducto() == idProducto);
+		return seleccionados; 
 	}
 	
 	@RequestMapping("/registraBoleta")
